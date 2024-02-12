@@ -6,18 +6,43 @@ using System.Threading.Tasks;
 
 namespace task3_4
 {
-    sealed class OneDimensionalArray : ArrayBase, IOneDimensional
+    interface IValueProvider<T>
+    {
+        T GetRandomValue();
+        T GetUserValue();
+        T Sum(T a, T b);
+    }
+
+    class IntValueProvider : IValueProvider<int> //и так для булевых и стрингов
+    {
+        public int GetRandomValue()
+        {
+            return new Random().Next();
+        }
+        public int GetUserValue()
+        {
+            return new Random().Next();
+        }
+
+        public int Sum(int a, int b)
+        {
+            return a + b;
+        }
+    }
+
+    sealed class OneDimensionalArray<T> : ArrayBase
+        where T: struct
     {
         private int n;
 
-        int[] array;
+        T[] array;
 
         public int Length
         {
             get { return n; }
         }
 
-        public int this[int index]
+        public T this[int index]
         {
             get { return array[index]; }
             set { array[index] = value; }
@@ -25,16 +50,21 @@ namespace task3_4
 
         public OneDimensionalArray(bool userInput = false) : base(userInput) { }
 
+        public OneDimensionalArray(IValueProvider<T> valueProvider)
+        {
+
+        }
+
         protected override void RandomInput()
         {
             n = rnd.Next(1, 10);
 
-            array = new int[n];
+            array = new T[n];
 
             for (int i = 0; i < array.Length; i++)
             {
-                int value = rnd.Next(0, 1000);
-                array[i] = value;
+                //int value = rnd.Next(0, 1000);
+                array[i] = valueProvider.GetRandomValue();  //кхмм как это реализовать???????
             }
         }
 
@@ -46,13 +76,13 @@ namespace task3_4
 
             Console.WriteLine($"Input {n} numbers");
 
-            array = new int[n]; 
+            array = new T[n]; 
 
             for (int i = 0; i < n; i++)
             {
                 if (int.TryParse(Console.ReadLine(), out int num))
                 {
-                    array[i] = num;
+                    array[i] = default;
                 }
                 else
                 {
@@ -82,7 +112,7 @@ namespace task3_4
         {
             double sum = 0;
 
-            foreach (int num in array)
+            foreach (T num in array)
             {
                 sum += num;
             }
@@ -92,64 +122,64 @@ namespace task3_4
             return average;
         }
 
-        public void GetArrayAbs100()
-        {
-            int newLength = n;
+        //public void GetArrayAbs100()
+        //{
+        //    int newLength = n;
 
-            foreach (int num in array)
-            {
-                if (Math.Abs(num) > 100)
-                {
-                    newLength--;
-                }
-            }
+        //    foreach (T num in array)
+        //    {
+        //        if (Math.Abs(num) > 100)
+        //        {
+        //            newLength--;
+        //        }
+        //    }
 
-            int[] newArray = new int[newLength];
+        //    int[] newArray = new int[newLength];
 
-            int newIndex = 0;
+        //    int newIndex = 0;
 
-            for (int i = 0; i < n; i++)
-            {
-                if (Math.Abs(array[i]) <= 100)
-                {
-                    newArray[newIndex] = array[i];
-                    newIndex++;
-                }
-            }
+        //    for (int i = 0; i < n; i++)
+        //    {
+        //        if (Math.Abs(array[i]) <= 100)
+        //        {
+        //            newArray[newIndex] = array[i];
+        //            newIndex++;
+        //        }
+        //    }
             
-            Console.WriteLine(string.Join(" ", newArray));
-        }
+        //    Console.WriteLine(string.Join(" ", newArray));
+        //}
 
-        public void GetArrayWithoutDuplicates()
-        {
-            int newLength = n;
+        //public void GetArrayWithoutDuplicates()
+        //{
+        //    int newLength = n;
 
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = i; j < n; j++)
-                {
-                    if (i != j && array[i] == array[j])
-                    {
-                        newLength--;
-                        break;
-                    }
-                }
-            }
+        //    for (int i = 0; i < n; i++)
+        //    {
+        //        for (int j = i; j < n; j++)
+        //        {
+        //            if (i != j && array[i] == array[j])
+        //            {
+        //                newLength--;
+        //                break;
+        //            }
+        //        }
+        //    }
 
-            int[] newArray = new int[newLength];
+        //    int[] newArray = new int[newLength];
 
-            int newIndex = 0;
+        //    int newIndex = 0;
 
-            for (int i = 0; i < n; i++)
-            {
-                if (!newArray.Contains(array[i]))
-                {
-                    newArray[newIndex] = array[i];
-                    newIndex++;
-                }
-            }
+        //    for (int i = 0; i < n; i++)
+        //    {
+        //        if (!newArray.Contains(array[i]))
+        //        {
+        //            newArray[newIndex] = array[i];
+        //            newIndex++;
+        //        }
+        //    }
 
-            Console.WriteLine(string.Join(" ", newArray));
-        }
+        //    Console.WriteLine(string.Join(" ", newArray));
+        //}
     }
 }

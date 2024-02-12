@@ -17,7 +17,9 @@ namespace task3_4
 
             while (message != "e")
             {
-                OneDimensionalArray onedimarray = new();
+                OneDimensionalArray<int> onedimarray = new();
+                OneDimensionalArray<bool> onedimarray2 = new();
+                OneDimensionalArray<object> onedimarray3 = new();
 
                 TwoDimensionalArray twodimarray = new();
 
