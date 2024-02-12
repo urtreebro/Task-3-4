@@ -6,36 +6,13 @@ using System.Threading.Tasks;
 
 namespace task3_4
 {
-    interface IValueProvider<T>
-    {
-        T GetRandomValue();
-        T GetUserValue();
-        T Sum(T a, T b);
-    }
-
-    class IntValueProvider : IValueProvider<int> //и так для булевых и стрингов
-    {
-        public int GetRandomValue()
-        {
-            return new Random().Next();
-        }
-        public int GetUserValue()
-        {
-            return new Random().Next();
-        }
-
-        public int Sum(int a, int b)
-        {
-            return a + b;
-        }
-    }
-
     sealed class OneDimensionalArray<T> : ArrayBase
-        where T: struct
     {
         private int n;
 
         T[] array;
+
+        static ValueProvider<T> valueProvider = new ValueProvider<T>();
 
         public int Length
         {
@@ -50,11 +27,6 @@ namespace task3_4
 
         public OneDimensionalArray(bool userInput = false) : base(userInput) { }
 
-        public OneDimensionalArray(IValueProvider<T> valueProvider)
-        {
-
-        }
-
         protected override void RandomInput()
         {
             n = rnd.Next(1, 10);
@@ -64,7 +36,7 @@ namespace task3_4
             for (int i = 0; i < array.Length; i++)
             {
                 //int value = rnd.Next(0, 1000);
-                array[i] = valueProvider.GetRandomValue();  //кхмм как это реализовать???????
+                array[i] = valueProvider.GetRandomValue();
             }
         }
 
@@ -74,20 +46,11 @@ namespace task3_4
 
             n = int.Parse(Console.ReadLine());
 
-            Console.WriteLine($"Input {n} numbers");
-
             array = new T[n]; 
 
             for (int i = 0; i < n; i++)
             {
-                if (int.TryParse(Console.ReadLine(), out int num))
-                {
-                    array[i] = default;
-                }
-                else
-                {
-                    Console.WriteLine("Couldn't convert into int");
-                }
+                array[i] = valueProvider.GetUserValue(); 
             }
         }
         public override void Refill(bool userInput = false)
@@ -108,19 +71,19 @@ namespace task3_4
             Console.WriteLine(string.Join(" ", array));
         }
 
-        public override double FindAverage()
-        {
-            double sum = 0;
+        //public override double FindAverage()
+        //{
+        //    double sum = 0;
 
-            foreach (T num in array)
-            {
-                sum += num;
-            }
+        //    foreach (T num in array)
+        //    {
+        //        sum += num;
+        //    }
 
-            double average = sum / n;
+        //    double average = sum / n;
 
-            return average;
-        }
+        //    return average;
+        //}
 
         //public void GetArrayAbs100()
         //{

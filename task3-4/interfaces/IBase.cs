@@ -8,7 +8,7 @@ namespace task3_4
 {
     public interface IBase : IPrinter
     {
-        double FindAverage();
+        //double FindAverage();
 
         void Refill(bool userInput = false);
     }

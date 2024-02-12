@@ -111,20 +111,20 @@ namespace task3_4
             }
         }
 
-        public override double FindAverage()
-        {
-            double sum = 0;
+        //public override double FindAverage()
+        //{
+        //    double sum = 0;
 
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < m; j++)
-                {
-                    sum += array[i, j];
-                }
-            }
-            double average = sum / (n * m);
-            return average;
-        }
+        //    for (int i = 0; i < n; i++)
+        //    {
+        //        for (int j = 0; j < m; j++)
+        //        {
+        //            sum += array[i, j];
+        //        }
+        //    }
+        //    double average = sum / (n * m);
+        //    return average;
+        //}
 
         public double GetMatrixDeterminant()
         {

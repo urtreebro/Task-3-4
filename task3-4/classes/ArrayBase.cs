@@ -32,7 +32,7 @@ namespace task3_4
 
         public abstract void Print();
 
-        public abstract double FindAverage();
+        //public abstract double FindAverage();
 
         public abstract void Refill(bool userInput = false);
     }
