@@ -6,15 +6,19 @@ using System.Threading.Tasks;
 
 namespace task3_4
 {
-    abstract class ArrayBase : IBase
+    abstract class ArrayBase<T> : IBase
     {
         protected bool userInput = false;
 
         protected static Random rnd = new();
 
-        protected ArrayBase(bool userInput = false)
+        protected IValueProvider<T> _valueProvider;
+
+        protected ArrayBase(IValueProvider<T> _valueProvider, bool userInput = false)
         {
             this.userInput = userInput;
+
+            this._valueProvider = _valueProvider;
 
             if (userInput)
             {
@@ -31,8 +35,6 @@ namespace task3_4
         protected abstract void UserInput();
 
         public abstract void Print();
-
-        //public abstract double FindAverage();
 
         public abstract void Refill(bool userInput = false);
     }

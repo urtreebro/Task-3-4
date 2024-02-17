@@ -6,10 +6,5 @@ using System.Threading.Tasks;
 
 namespace task3_4
 {
-    interface IOneDimensional : IBase
-    {
-        void GetArrayAbs100();
-
-        void GetArrayWithoutDuplicates();
-    }
+    interface IOneDimensional : IBase { }
 }

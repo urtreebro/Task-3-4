@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace task3_4
 {
-    sealed class OneDimensionalArray<T> : ArrayBase
+    sealed class OneDimensionalArray<T> : ArrayBase<T>, IOneDimensional
     {
         private int n;
 
         T[] array;
-
-        static ValueProvider<T> valueProvider = new ValueProvider<T>();
 
         public int Length
         {
@@ -25,7 +23,7 @@ namespace task3_4
             set { array[index] = value; }
         }
 
-        public OneDimensionalArray(bool userInput = false) : base(userInput) { }
+        public OneDimensionalArray(IValueProvider<T> _valueProvider, bool userInput = false) : base(_valueProvider, userInput) { }
 
         protected override void RandomInput()
         {
@@ -35,8 +33,7 @@ namespace task3_4
 
             for (int i = 0; i < array.Length; i++)
             {
-                //int value = rnd.Next(0, 1000);
-                array[i] = valueProvider.GetRandomValue();
+                array[i] = _valueProvider.GetRandomValue();
             }
         }
 
@@ -46,11 +43,13 @@ namespace task3_4
 
             n = int.Parse(Console.ReadLine());
 
-            array = new T[n]; 
+            array = new T[n];
+
+            Console.WriteLine($"Input {n} values");
 
             for (int i = 0; i < n; i++)
             {
-                array[i] = valueProvider.GetUserValue(); 
+                array[i] = _valueProvider.GetUserValue(); 
             }
         }
         public override void Refill(bool userInput = false)
@@ -70,79 +69,5 @@ namespace task3_4
             Console.WriteLine("Printed array:");
             Console.WriteLine(string.Join(" ", array));
         }
-
-        //public override double FindAverage()
-        //{
-        //    double sum = 0;
-
-        //    foreach (T num in array)
-        //    {
-        //        sum += num;
-        //    }
-
-        //    double average = sum / n;
-
-        //    return average;
-        //}
-
-        //public void GetArrayAbs100()
-        //{
-        //    int newLength = n;
-
-        //    foreach (T num in array)
-        //    {
-        //        if (Math.Abs(num) > 100)
-        //        {
-        //            newLength--;
-        //        }
-        //    }
-
-        //    int[] newArray = new int[newLength];
-
-        //    int newIndex = 0;
-
-        //    for (int i = 0; i < n; i++)
-        //    {
-        //        if (Math.Abs(array[i]) <= 100)
-        //        {
-        //            newArray[newIndex] = array[i];
-        //            newIndex++;
-        //        }
-        //    }
-            
-        //    Console.WriteLine(string.Join(" ", newArray));
-        //}
-
-        //public void GetArrayWithoutDuplicates()
-        //{
-        //    int newLength = n;
-
-        //    for (int i = 0; i < n; i++)
-        //    {
-        //        for (int j = i; j < n; j++)
-        //        {
-        //            if (i != j && array[i] == array[j])
-        //            {
-        //                newLength--;
-        //                break;
-        //            }
-        //        }
-        //    }
-
-        //    int[] newArray = new int[newLength];
-
-        //    int newIndex = 0;
-
-        //    for (int i = 0; i < n; i++)
-        //    {
-        //        if (!newArray.Contains(array[i]))
-        //        {
-        //            newArray[newIndex] = array[i];
-        //            newIndex++;
-        //        }
-        //    }
-
-        //    Console.WriteLine(string.Join(" ", newArray));
-        //}
     }
 }

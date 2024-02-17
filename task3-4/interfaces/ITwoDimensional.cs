@@ -6,8 +6,5 @@ using System.Threading.Tasks;
 
 namespace task3_4
 {
-    interface ITwoDimensional : IBase
-    {
-        double GetMatrixDeterminant();
-    }
+    interface ITwoDimensional : IBase { }
 }

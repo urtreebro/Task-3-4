@@ -6,119 +6,68 @@ using System.Threading.Tasks;
 
 namespace task3_4
 {
-    //sealed class JaggedArray : ArrayBase, IJagged
-    //{
-    //    private OneDimensionalArray[] array;
+    sealed class JaggedArray<T> : ArrayBase<T>, IJagged
+    {
+        private OneDimensionalArray<T>[] array;
 
-    //    private int n;
+        private int n;
 
-    //    public JaggedArray(bool userInput = false) : base(userInput) { }
+        public JaggedArray(IValueProvider<T> _valueProvider, bool userInput = false) : base(_valueProvider ,userInput) { }
 
-    //    public override void Refill(bool userInput = false)
-    //    {
-    //        if (userInput)
-    //        {
-    //            UserInput();
-    //        }
-    //        else
-    //        {
-    //            RandomInput();
-    //        }
-    //    }
+        public override void Refill(bool userInput = false)
+        {
+            if (userInput)
+            {
+                UserInput();
+            }
+            else
+            {
+                RandomInput();
+            }
+        }
 
-    //    protected override void UserInput()
-    //    {
-    //        Console.WriteLine("Input length of the array");
+        protected override void UserInput()
+        {
+            Console.WriteLine("Input length of the array");
 
-    //        n = int.Parse(Console.ReadLine());
+            n = int.Parse(Console.ReadLine());
 
-    //        array = new OneDimensionalArray[n];
+            array = new OneDimensionalArray<T>[n];
 
-    //        for (int i = 0; i < n; i++)
-    //        {
-    //            OneDimensionalArray nestedArray = new(true);
+            for (int i = 0; i < n; i++)
+            {
+                OneDimensionalArray<T> nestedArray = new(_valueProvider, true);
 
-    //            array[i] = nestedArray;
-    //        }
-    //    }
+                array[i] = nestedArray;
+            }
+        }
 
-    //    protected override void RandomInput()
-    //    {
-    //        n = rnd.Next(1, 10);
+        protected override void RandomInput()
+        {
+            n = rnd.Next(1, 10);
 
-    //        array = new OneDimensionalArray[n];
-             
-    //        for (int i = 0; i < n; i++)
-    //        {
-    //            OneDimensionalArray nestedArray = new();
+            array = new OneDimensionalArray<T>[n];
 
-    //            array[i] = nestedArray;
-    //        }
-    //    }
+            for (int i = 0; i < n; i++)
+            {
+                OneDimensionalArray<T> nestedArray = new(_valueProvider);
 
-    //    public override void Print()
-    //    {
-    //        Console.WriteLine("Printed array:");
+                array[i] = nestedArray;
+            }
+        }
 
-    //        for (int i = 0; i < array.Length; i++)
-    //        {
-    //            for (int j = 0; j < array[i].Length; j++)
-    //            {
-    //                Console.Write(array[i][j] + "\t");
-    //            }
-    //            Console.WriteLine();
-    //        }
-    //    }
+        public override void Print()
+        {
+            Console.WriteLine("Printed array:");
 
-    //    //public override double FindAverage()
-    //    //{
-    //    //    double sum = 0;
-
-    //    //    int count = 0;
-
-    //    //    for (int i = 0; i < n; i++)
-    //    //    {
-    //    //        for (int j = 0; j < array[i].Length; j++)
-    //    //        {
-    //    //            sum += array[i][j];
-    //    //            count++;
-    //    //        }
-    //    //    }
-    //    //    double average = sum / count;
-    //    //    return average;
-    //    //}
-
-    //    public void GetAverageNumInNestedArrays()
-    //    {
-    //        double[] averageArray = new double[n];
-
-    //        for (int i = 0; i < n; i++)
-    //        {
-    //            double sum = 0;
-
-    //            for (int j = 0; j < array[i].Length; j++)
-    //            {
-    //                sum += array[i][j];
-    //            }
-    //            double average = sum / array[i].Length;
-    //            averageArray[i] = average;
-    //        }
-
-    //        Console.WriteLine(string.Join(" ", averageArray));
-    //    }
-
-    //    public void ChangeArray()
-    //    {
-    //        for (int i = 0; i < array.Length; i++)
-    //        {
-    //            for (int j = 0; j < array[i].Length; j++)
-    //            {
-    //                if (array[i][j] % 2 == 0)
-    //                {
-    //                    array[i][j] = i * j;
-    //                }
-    //            }
-    //        }
-    //    }
-    //}    
+            for (int i = 0; i < array.Length; i++)
+            {
+                for (int j = 0; j < array[i].Length; j++)
+                {
+                    Console.Write(array[i][j] + "\t");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
 }
